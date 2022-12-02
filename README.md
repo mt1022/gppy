@@ -1,5 +1,8 @@
 # Genomic Positioning with Python
 
+### Dependency and Installation
+Scripts in this package rely only on the standard python (tested with version >= 3.7). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
+
 ### Usage
 List utilities
 ```
