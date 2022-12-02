@@ -1,1 +1,1 @@
-# GRIP
+# Genomic Positioning with Python
