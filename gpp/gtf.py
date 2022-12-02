@@ -581,7 +581,7 @@ if __name__ == "__main__":
     
     
     # main parser with subparsers
-    parser = argparse.ArgumentParser(prog='GTFtools.py',
+    parser = argparse.ArgumentParser(prog='gtf.py',
         description='GTF file manipulation')
     subparsers = parser.add_subparsers(title='GTF operations',
         help='supported operations', dest='subcmd')
