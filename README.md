@@ -1,7 +1,7 @@
 # Genomic Positioning with Python
 
 #### Usage
-List of utilities
+List utilities
 ```
 $ usage: gtf.py [-h] {txinfo,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick} ...
 
@@ -22,7 +22,7 @@ GTF operations:
     extract_thick       Extract nested thick regions from bed12
 ```
 
-Extract of basic transcript information
+Extract basic transcript information
 ```
 $ python gpp/gtf.py txinfo -h
 usage: gtf.py txinfo [-h] [-g GTF]
@@ -55,10 +55,10 @@ options:
   -h, --help            show this help message and exit
   -g GTF, --gtf GTF     input gtf file (default: -)
   -i INFILE, --infile INFILE
-                        tab-delimited file with the first two columns composed oftx_id and transcript coordinates (default: None)
+                        tab-delimited file with the first two columns composed of tx_id and transcript coordinates (default: None)
 ```
 
-Convert transcript intervals to genomic intervals (allow spliced regions exported in bed12 format)
+Convert transcript intervals to genomic intervals (allow spliced regions)
 ```
 $ python gpp/gtf.py tiv2giv -h
 usage: gtf.py tiv2giv [-h] [-g GTF] [-i INFILE] [-a]
