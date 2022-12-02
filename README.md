@@ -1,6 +1,6 @@
 # Genomic Positioning with Python
 
-#### Usage
+### Usage
 List utilities
 ```
 $ usage: gtf.py [-h] {txinfo,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick} ...
@@ -94,3 +94,8 @@ options:
   -i INFILE, --infile INFILE
                         tab-delimited file with the first three columns composed of tx_id, start and end coordinates (default: None)
 ```
+
+### TODO
+- File format conversion between gtf/bed/SAF;
+- improved transcrip info extraction in `txinfo` subcommand (for example, parse all possible tags);
+
