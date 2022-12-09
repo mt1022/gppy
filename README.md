@@ -1,9 +1,13 @@
 # Genomic Positioning with Python
 
-`GPP` is a python package for genomic interval conversions to facilitate related transcriptome or translatome analysis. `GPP` can convert transcript/CDS intervals to genomic intervals in bed12 format and vice versa, while taking well care of the presence of introns. Besides, `GPP` can extract mRNA/CDS/UTR from gtf and export in bed12 format and generate summary table of basic transcript information (inlcuding ids and lengths).
+`GPP` is a python package for genomic interval conversions to facilitate related transcriptome or translatome analysis. `GPP` can convert transcript/CDS intervals to genomic intervals in `bed12` format and vice versa, while taking well care of the presence of introns. Besides, `GPP` can extract mRNA/CDS/UTR from gtf and export in `bed12` format and generate summary table of basic transcript information (inlcuding ids and transcript/CDS/UTR lengths). More related features will be included in the future.
 
 ### Dependency and Installation
 Scripts in this package rely only on the standard python (tested with version >= 3.7). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
+
+```bash
+wget https://raw.githubusercontent.com/mt1022/GPP/main/gpp/gtf.py
+```
 
 ### Usage
 List utilities
