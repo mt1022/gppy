@@ -16,8 +16,8 @@ import re
 import gzip
 import csv
 from dataclasses import dataclass
-from typing import List
-
+from collections import defaultdict
+from typing import Any
 
 ###############################################################################
 # class definiton #############################################################
@@ -47,9 +47,9 @@ class Transcript:
     def __init__(self, tx_id: str, gene: Gene):
         self.tx_id: str = tx_id
         self.gene: Gene = gene
-        self.exons: List[Region] = []
-        self.cdss: List[Region] = []
-        self.stop_codon: List[Region] = []
+        self.exons: list[Region] = []
+        self.cdss: list[Region] = []
+        self.stop_codon: list[Region] = []
     
     def add_region(self, region, region_type):
         if region_type == 'exon':
@@ -292,13 +292,18 @@ class Transcript:
 ###############################################################################
 # functions ###################################################################
 ###############################################################################
-def parse_gtf(gtf_file):
+def parse_gtf(gtf_file, parse_attrs=False):
     """
     read GTF file
 
     param: path to GTF file, gzipped format allowed.
     """
     gtf = {}
+    if parse_attrs:
+        tx_meta = {}
+        metavars = dict(attrs=set(), tags=set())
+        regex_attr = re.compile(r'(\w+) "?(\w+)"?;')
+
     if gtf_file.endswith('.gz'):
         f = gzip.open(gtf_file, 'rt')
     elif gtf_file == '-':
@@ -309,6 +314,7 @@ def parse_gtf(gtf_file):
     regex_gid = re.compile(r'gene_id "(.*?)"')
     regex_tid = re.compile(r'transcript_id "(.*?)"')
     regex_name = re.compile(r'gene_name "(.*?)"')
+
     for line in f:
         if line[0] == '#':
             continue
@@ -316,8 +322,9 @@ def parse_gtf(gtf_file):
         m_tid = regex_tid.search(ary[8])
         m_gid = regex_gid.search(ary[8])
         if m_tid:
-            if m_tid.group(1) in gtf:
-                gtf[m_tid.group(1)].add_region(region = Region(int(ary[3]), int(ary[4])), region_type=ary[2])
+            tx_name = m_tid.group(1)
+            if tx_name in gtf:
+                gtf[tx_name].add_region(region = Region(int(ary[3]), int(ary[4])), region_type=ary[2])
             else:
                 m_name = regex_name.search(ary[8])
                 if m_name:
@@ -325,14 +332,29 @@ def parse_gtf(gtf_file):
                 else:
                     gene_name = m_gid.group(1)
                 gene = Gene(gene_id=m_gid.group(1), gene_name=gene_name, chrom=ary[0], strand=ary[6])
-                tx = Transcript(tx_id=m_tid.group(1), gene=gene)
+                tx = Transcript(tx_id=tx_name, gene=gene)
                 tx.add_region(region = Region(int(ary[3]), int(ary[4])), region_type=ary[2])
-                gtf[m_tid.group(1)] = tx
+                gtf[tx_name] = tx
+            if parse_attrs and ary[2] == 'transcript':
+                attrs = dict()
+                tags = dict()
+                for m in regex_attr.finditer(ary[8]):
+                    if m.group(1) == 'tag':
+                        tags[m.group(2)] = True
+                        metavars['tag'].add(m.group(2))
+                    else:
+                        attrs[m.group(1)] = m.group(2)
+                        metavars['attrs'].add(m.group(1))
+                tx_meta[tx_name] = dict(attrs=attrs, tags=tags)
+
     f.close()
     
     for tx in gtf:
         gtf[tx].update()
-    return gtf
+    if parse_attrs:
+        return gtf, tx_meta, metavars
+    else:
+        return gtf
 
 
 def exon_to_bed(gtf_file, extend=0):
@@ -496,9 +518,12 @@ def tx_info(gtf_file):
     param: path to GTF file, gzipped format allowed.
     note: stop codon is counted for CDS length, so that cds + utr5 + utr3 = transcript length
     """
-    gtf = parse_gtf(gtf_file)
+    gtf, tx_meta, metavars= parse_gtf(gtf_file, parse_attrs=True)
     header = ['tx_id', 'gene_id', 'chrom', 'strand', 'len', 'len_cds', 'len_utr5', 'len_utr3']
     print('\t'.join(header))
+
+    attrs = metavars['attr']
+
     for tx_id in gtf:
         tx = gtf[tx_id]
         out = [tx.tx_id, tx.gene.gene_id, tx.gene.chrom, tx.gene.strand]
