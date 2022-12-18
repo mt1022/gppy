@@ -9,6 +9,23 @@ Scripts in this package rely only on the standard python (tested with version >=
 wget https://raw.githubusercontent.com/mt1022/GPP/main/gpp/gtf.py
 ```
 
+### Examples
+Extract transcript length stats and metadata:
+```bash
+python gpp/gtf.py txinfo -g test/human.chrY.gtf >test/human.chrY.txinfo.tsv
+cut -f1-7,14,16,19,20,23 test/human.chrY.txinfo.tsv | head
+# tx_name	gene_id	nexon	tx_len	cds_len	utr5_len	utr3_len	gene_name	transcript_biotype	MANE_Select	Ensembl_canonical	basic
+# ENST00000431340	ENSG00000215601	4	443	0	0	443	TSPY24P	unprocessed_pseudogene	False	True	True
+# ENST00000415010	ENSG00000215603	1	1191	0	0	1191	ZNF92P1Y	processed_pseudogene	False	True	True
+# ENST00000449381	ENSG00000231436	8	1145	0	0	1145	RBMY3AP	unprocessed_pseudogene	False	True	True
+# ENST00000436888	ENSG00000225878	1	1164	0	0	1164	SERBP1P2	processed_pseudogene	False	True	True
+# ENST00000421279	ENSG00000236435	5	868	0	0	868	TSPY12P	unprocessed_pseudogene	False	True	True
+# ENST00000430032	ENSG00000278478	1	279	0	0	279		processed_pseudogene	False	True	True
+# ENST00000557448	ENSG00000258991	1	1267	0	0	1267	DUX4L19	unprocessed_pseudogene	False	True	True
+# ENST00000651670	ENSG00000237048	4	1123	0	0	1123	TTTY12	lncRNA	False	False	True
+# ENST00000413466	ENSG00000237048	3	1046	0	0	1046	TTTY12	lncRNA	False	True	False
+```
+
 ### Usage
 List utilities
 ```

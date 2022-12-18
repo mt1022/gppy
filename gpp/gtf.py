@@ -341,7 +341,7 @@ def parse_gtf(gtf_file, parse_attrs=False):
                 for m in regex_attr.finditer(ary[8]):
                     if m.group(1) == 'tag':
                         tags[m.group(2)] = True
-                        metavars['tag'].add(m.group(2))
+                        metavars['tags'].add(m.group(2))
                     else:
                         attrs[m.group(1)] = m.group(2)
                         metavars['attrs'].add(m.group(1))
@@ -519,19 +519,24 @@ def tx_info(gtf_file):
     note: stop codon is counted for CDS length, so that cds + utr5 + utr3 = transcript length
     """
     gtf, tx_meta, metavars= parse_gtf(gtf_file, parse_attrs=True)
-    header = ['tx_id', 'gene_id', 'chrom', 'strand', 'len', 'len_cds', 'len_utr5', 'len_utr3']
+    attrs = metavars['attrs'].difference(['transcript_id', 'gene_id'])
+    tags = metavars['tags']
+
+    header = (['tx_name', 'gene_id', 'nexon', 'tx_len', 'cds_len', 'utr5_len',
+        'utr3_len'] + list(attrs) + list(tags))
     print('\t'.join(header))
-
-    attrs = metavars['attr']
-
     for tx_id in gtf:
         tx = gtf[tx_id]
-        out = [tx.tx_id, tx.gene.gene_id, tx.gene.chrom, tx.gene.strand]
-        len_tx = len(tx)
-        len_utr5 = sum(len(i) for i in tx.five_prime_utrs)
-        len_cds = sum(len(i) for i in tx.cdss) + sum(len(i) for i in tx.stop_codon)
-        len_utr3 = len_tx - len_cds - len_utr5
-        out += [str(i) for i in [len_tx, len_cds, len_utr5, len_utr3]]
+        meta = tx_meta[tx_id]
+        nexon = len(tx.exons)
+        tx_len = len(tx)
+        cds_len = sum(len(i) for i in tx.cdss) + sum(len(i) for i in tx.stop_codon)
+        utr5_len = sum(len(i) for i in tx.five_prime_utrs)
+        utr3_len = tx_len - cds_len - utr5_len
+        out = ([tx.tx_id, tx.gene.gene_id] + 
+            [str(i) for i in [nexon, tx_len, cds_len, utr5_len, utr3_len]] +
+            [meta['attrs'].get(i, '') for i in attrs] +
+            [str(meta['tags'].get(i, False)) for i in tags])
         print('\t'.join(out))
     return
 
