@@ -511,7 +511,7 @@ def giv2tiv(gtf_file, givfile):
     return
 
 
-def tx_info(gtf_file):
+def tx_info(gtf_file, force_end_tags=False):
     """
     print summary information of each transcript
 
@@ -519,11 +519,16 @@ def tx_info(gtf_file):
     note: stop codon is counted for CDS length, so that cds + utr5 + utr3 = transcript length
     """
     gtf, tx_meta, metavars= parse_gtf(gtf_file, parse_attrs=True)
-    attrs = metavars['attrs'].difference(['transcript_id', 'gene_id'])
-    tags = metavars['tags']
+    # support user provide list of attrs or tags?
+    # attrs = attrs_user if attrs_user else list(metavars['attrs'].difference(['transcript_id', 'gene_id']))
+    # tags = tags_user if tags_user else list(metavars['tags'])
+    attrs = list(metavars['attrs'].difference(['transcript_id', 'gene_id']))
+    tags = list(metavars['tags'])
+    if force_end_tags:
+        tags += ['cds_start_NF', 'cds_end_NF', 'mRNA_start_NF', 'mRNA_end_NF']
 
-    header = (['tx_name', 'gene_id', 'nexon', 'tx_len', 'cds_len', 'utr5_len',
-        'utr3_len'] + list(attrs) + list(tags))
+    header = (['tx_name', 'gene_id', 'chrom', 'strand', 'nexon', 'tx_len', 'cds_len',
+        'utr5_len', 'utr3_len'] + [i.lower() for i in attrs] + [i.lower() for i in tags])
     print('\t'.join(header))
     for tx_id in gtf:
         tx = gtf[tx_id]
@@ -532,8 +537,8 @@ def tx_info(gtf_file):
         tx_len = len(tx)
         cds_len = sum(len(i) for i in tx.cdss) + sum(len(i) for i in tx.stop_codon)
         utr5_len = sum(len(i) for i in tx.five_prime_utrs)
-        utr3_len = tx_len - cds_len - utr5_len
-        out = ([tx.tx_id, tx.gene.gene_id] + 
+        utr3_len = (tx_len - cds_len - utr5_len) if cds_len > 0 else 0
+        out = ([tx.tx_id, tx.gene.gene_id, tx.gene.chrom, tx.gene.strand] +
             [str(i) for i in [nexon, tx_len, cds_len, utr5_len, utr3_len]] +
             [meta['attrs'].get(i, '') for i in attrs] +
             [str(meta['tags'].get(i, False)) for i in tags])
@@ -620,6 +625,8 @@ if __name__ == "__main__":
         help='summary information of each transcript',
         parents=[parent_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser_txinfo.add_argument('-f', '--force_end_check', action='store_true',
+        help='whether to include completeness checking tags')
 
     parser_tobed = subparsers.add_parser('convert2bed',
         help='convert GTF to bed12 format', parents=[parent_parser],
@@ -680,7 +687,7 @@ if __name__ == "__main__":
         else:
             utr3_to_bed(args.gtf, args.extend)
     elif args.subcmd == 'txinfo':
-        tx_info(args.gtf)
+        tx_info(args.gtf, args.force_end_check)
     elif args.subcmd == 't2g':
         t2g(gtf_file=args.gtf, tfile=args.infile)
     elif args.subcmd == 'g2t':

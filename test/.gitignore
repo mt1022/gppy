@@ -1,2 +1,5 @@
-*.ipynb
-tmp*
+*
+!human.chr22.gtf.gz
+!human.chrX.gtf.gz
+!human.chrY.gtf
+!human.chrY.txinfo.tsv
