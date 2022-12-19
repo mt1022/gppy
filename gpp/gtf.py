@@ -524,6 +524,9 @@ def tx_info(gtf_file, force_end_tags=False):
     # tags = tags_user if tags_user else list(metavars['tags'])
     attrs = list(metavars['attrs'].difference(['transcript_id', 'gene_id']))
     tags = list(metavars['tags'])
+
+    attrs.sort()
+    tags.sort()
     if force_end_tags:
         tags += ['cds_start_NF', 'cds_end_NF', 'mRNA_start_NF', 'mRNA_end_NF']
 
