@@ -114,7 +114,7 @@ head test/human.chrY.cds.bed12
 # Y	22992343	22992376	ENST00000602732	ENSG00000183753	+	0	0	0	1	33,	0,
 ```
 
-Converison between genomic and transcriptomic sites
+Converison between genomic and transcriptomic positions for individual sites
 ```bash
 cut -f1,2 test/human.chrY.cds.tiv2.tsv >test/human.chrY.cds.start.tpos.tsv
 python gpp/gtf.py t2g -g test/human.chrY.gtf -i test/human.chrY.cds.start.tpos.tsv >test/human.chrY.cds.start.gpos.tsv
@@ -175,7 +175,8 @@ head test/human.chrY.cds.start.tpos2.tsv
 ### Usage
 List utilities
 ```
-$ usage: gtf.py [-h] {txinfo,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick} ...
+$ python gpp/gtf.py -h
+usage: gtf.py [-h] {txinfo,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick} ...
 
 GTF file manipulation
 
@@ -268,9 +269,9 @@ options:
 ```
 
 ### TODO
-- [ ] File format conversion between gtf/bed/SAF;
 - [x] improved transcrip info extraction in `txinfo` subcommand (for example, parse all possible tags);
 - [x] check txinfo results compatilibality with previous R code relying on `GenomicFeatures`;
+- [ ] File format conversion between gtf/bed/SAF;
 
 Please use the issues section to report if you have spotted any bug or want a feature to be implemented :)
 

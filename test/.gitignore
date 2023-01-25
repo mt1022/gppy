@@ -3,3 +3,7 @@
 !human.chrX.gtf.gz
 !human.chrY.gtf
 !human.chrY.txinfo.tsv
+!*.bed12
+!*.bed
+!*.tsv
+
