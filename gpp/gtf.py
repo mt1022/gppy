@@ -346,6 +346,15 @@ def parse_gtf(gtf_file, parse_attrs=False):
                         attrs[m.group(1)] = m.group(2)
                         metavars['attrs'].add(m.group(1))
                 tx_meta[tx_name] = dict(attrs=attrs, tags=tags)
+            if parse_attrs and ary[2] == 'CDS':
+                try:
+                     _ = tx_meta[tx_name]['attrs']['protein_id']
+                except KeyError:
+                    for m in regex_attr.finditer(ary[8]):
+                        if m.group(1) in ['protein_id', 'protein_version']:
+                            metavars['attrs'].add(m.group(1))
+                            tx_meta[tx_name]['attrs'][m.group(1)] = m.group(2)
+
 
     f.close()
     
