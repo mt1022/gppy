@@ -3,11 +3,10 @@
 `GPP` is a python package for genomic interval conversions to facilitate related transcriptome or translatome analysis. `GPP` can convert transcript/CDS intervals to genomic intervals in `bed12` format and vice versa, while taking well care of the presence of introns. Besides, `GPP` can extract mRNA/CDS/UTR from gtf and export in `bed12` format and generate summary table of basic transcript information (inlcuding ids and transcript/CDS/UTR lengths). More related features will be included in the future.
 
 ### Dependency and Installation
-Install from PyPI:
-
 ```bash
-pip install gpp
+pip install gpp-0.1.1-py3-none-any.whl
 ```
+Install from PyPI: currently not supported due to naming problem.
 
 Scripts in this package rely only on the standard python (tested with version >= 3.7). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
 
