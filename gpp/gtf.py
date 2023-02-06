@@ -620,7 +620,7 @@ def extract_thick(bed12_file):
     return
 
 
-if __name__ == "__main__":
+def main():
     # parent parser that holds common argument
     parent_parser = argparse.ArgumentParser(add_help=False)
     parent_parser.add_argument('-g', '--gtf',
@@ -710,3 +710,9 @@ if __name__ == "__main__":
         giv2tiv(gtf_file=args.gtf, givfile=args.infile)
     elif args.subcmd == 'extract_thick':
         extract_thick(bed12_file=args.gtf)
+    return
+
+    pass
+
+if __name__ == "__main__":
+    main()
