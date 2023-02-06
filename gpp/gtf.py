@@ -628,7 +628,7 @@ def main():
     
     
     # main parser with subparsers
-    parser = argparse.ArgumentParser(prog='gtf.py',
+    parser = argparse.ArgumentParser(prog='gpp|gtf.py',
         description='GTF file manipulation')
     subparsers = parser.add_subparsers(title='GTF operations',
         help='supported operations', dest='subcmd')

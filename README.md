@@ -3,16 +3,31 @@
 `GPP` is a python package for genomic interval conversions to facilitate related transcriptome or translatome analysis. `GPP` can convert transcript/CDS intervals to genomic intervals in `bed12` format and vice versa, while taking well care of the presence of introns. Besides, `GPP` can extract mRNA/CDS/UTR from gtf and export in `bed12` format and generate summary table of basic transcript information (inlcuding ids and transcript/CDS/UTR lengths). More related features will be included in the future.
 
 ### Dependency and Installation
+Install from PyPI:
+
+```bash
+pip install gpp
+```
+
 Scripts in this package rely only on the standard python (tested with version >= 3.7). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
 
 ```bash
 wget https://raw.githubusercontent.com/mt1022/GPP/main/gpp/gtf.py
 ```
 
+To run `gpp`:
+```bash
+# as package
+gpp subcommand -h
+
+# script
+python gpp/gtf.py subcommand -h
+```
+
 ### Examples
 Extract transcript length stats and metadata:
 ```bash
-python gpp/gtf.py txinfo -g test/human.chrY.gtf >test/human.chrY.txinfo.tsv
+gpp txinfo -g test/human.chrY.gtf >test/human.chrY.txinfo.tsv
 cut -f1-9,12,15,19-22 test/human.chrY.txinfo.tsv | head
 # tx_name	gene_id	chrom	strand	nexon	tx_len	cds_len	utr5_len	utr3_len	gene_name	transcript_biotype	ccds	ensembl_canonical	mane_select	basic
 # ENST00000431340	ENSG00000215601	Y	+	4	443	0	0	0	TSPY24P	unprocessed_pseudogene	False	True	False	True
@@ -28,7 +43,7 @@ cut -f1-9,12,15,19-22 test/human.chrY.txinfo.tsv | head
 
 Extract CDS regions of each protein-coding transcript and export in bed12 format
 ```bash
-python gpp/gtf.py convert2bed -g test/human.chrY.gtf -t cds >test/human.chrY.cds.bed12
+gpp convert2bed -g test/human.chrY.gtf -t cds >test/human.chrY.cds.bed12
 head test/human.chrY.cds.bed12
 # Y	22501564	22514067	ENST00000303728	ENSG00000169789	+	0	0	0	3	69,116,256,	0,2644,12247,
 # Y	22501564	22512665	ENST00000477123	ENSG00000169789	+	0	0	0	3	69,116,28,	0,2644,11073,
@@ -45,7 +60,7 @@ head test/human.chrY.cds.bed12
 Convert CDS regions in genome coordinates to transcriptome coordinates
 ```bash
 awk -v OFS="\t" '{print $4, $2 + 1, $3, $6}' test/human.chrY.cds.bed12 >test/human.chrY.cds.giv.tsv
-python gpp/gtf.py giv2tiv -g test/human.chrY.gtf -i test/human.chrY.cds.giv.tsv >test/human.chrY.cds.tiv.tsv
+gpp giv2tiv -g test/human.chrY.gtf -i test/human.chrY.cds.giv.tsv >test/human.chrY.cds.tiv.tsv
 
 head test/human.chrY.cds.giv.tsv
 # ENST00000303728	22501565	22514067	+
@@ -74,7 +89,7 @@ head test/human.chrY.cds.tiv.tsv
 Convert CDS regions in transcriptome coordinates to genome coordinates
 ```bash
 cut -f1,5,6 test/human.chrY.cds.tiv.tsv >test/human.chrY.cds.tiv2.tsv
-python gpp/gtf.py tiv2giv -g test/human.chrY.gtf -i test/human.chrY.cds.tiv2.tsv -a >test/human.chrY.cds.giv2.bed12
+gpp tiv2giv -g test/human.chrY.gtf -i test/human.chrY.cds.tiv2.tsv -a >test/human.chrY.cds.giv2.bed12
 
 head test/human.chrY.cds.tiv2.tsv
 # ENST00000303728	228	668
@@ -117,7 +132,7 @@ head test/human.chrY.cds.bed12
 Converison between genomic and transcriptomic positions for individual sites
 ```bash
 cut -f1,2 test/human.chrY.cds.tiv2.tsv >test/human.chrY.cds.start.tpos.tsv
-python gpp/gtf.py t2g -g test/human.chrY.gtf -i test/human.chrY.cds.start.tpos.tsv >test/human.chrY.cds.start.gpos.tsv
+gpp t2g -g test/human.chrY.gtf -i test/human.chrY.cds.start.tpos.tsv >test/human.chrY.cds.start.gpos.tsv
 
 head test/human.chrY.cds.start.tpos.tsv
 # ENST00000303728	228
@@ -144,7 +159,7 @@ head test/human.chrY.cds.start.gpos.tsv
 # ENST00000602732	527	Y	+	22992344
 
 cut -f1,5 test/human.chrY.cds.start.gpos.tsv >test/human.chrY.cds.start.gpos2.tsv
-python gpp/gtf.py g2t -g test/human.chrY.gtf -i test/human.chrY.cds.start.gpos2.tsv >test/human.chrY.cds.start.tpos2.tsv
+gpp g2t -g test/human.chrY.gtf -i test/human.chrY.cds.start.gpos2.tsv >test/human.chrY.cds.start.tpos2.tsv
 
 head test/human.chrY.cds.start.gpos2.tsv
 # ENST00000303728	22501565
