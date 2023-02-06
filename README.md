@@ -4,7 +4,11 @@
 
 ### Dependency and Installation
 ```bash
+# option 1: download whl and install
 pip install gpp-0.1.1-py3-none-any.whl
+
+# option 2: install from testPyPI
+python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps gpp
 ```
 Install from PyPI: currently not supported due to naming problem.
 
