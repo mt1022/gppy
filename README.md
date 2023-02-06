@@ -190,8 +190,8 @@ head test/human.chrY.cds.start.tpos2.tsv
 ### Usage
 List utilities
 ```
-$ python gpp/gtf.py -h
-usage: gtf.py [-h] {txinfo,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick} ...
+$ gpp -h
+usage: gpp|gtf.py [-h] {txinfo,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick} ...
 
 GTF file manipulation
 
@@ -212,8 +212,8 @@ GTF operations:
 
 Extract basic transcript information
 ```
-$ python gpp/gtf.py txinfo -h
-usage: gtf.py txinfo [-h] [-g GTF]
+$ gpp txinfo -h
+usage: gpp|gtf.py txinfo [-h] [-g GTF]
 
 options:
   -h, --help         show this help message and exit
@@ -222,7 +222,7 @@ options:
 
 Extract transcript/CDS/UTR features in GTF as bed12 format
 ```
-$ python gpp/gtf.py convert2bed -h
+$ gpp convert2bed -h
 usage: gtf.py convert2bed [-h] [-g GTF] [-t {exon,cds,utr5,utr3}] [-e EXTEND]
 
 options:
@@ -236,8 +236,8 @@ options:
 
 Convert transcript positions to genomic positions
 ```
-$ python gpp/gtf.py t2g -h
-usage: gtf.py t2g [-h] [-g GTF] [-i INFILE]
+$ gpp t2g -h
+usage: gpp|gtf.py t2g [-h] [-g GTF] [-i INFILE]
 
 options:
   -h, --help            show this help message and exit
@@ -248,8 +248,8 @@ options:
 
 Convert transcript intervals to genomic intervals (allow spliced regions)
 ```
-$ python gpp/gtf.py tiv2giv -h
-usage: gtf.py tiv2giv [-h] [-g GTF] [-i INFILE] [-a]
+$ gpp tiv2giv -h
+usage: gpp|gtf.py tiv2giv [-h] [-g GTF] [-i INFILE] [-a]
 
 options:
   -h, --help            show this help message and exit
@@ -261,8 +261,8 @@ options:
 
 Convert genomic positions to transcript positions
 ```
-$ python gpp/gtf.py g2t -h
-usage: gtf.py g2t [-h] [-g GTF] [-i INFILE]
+$ gpp g2t -h
+usage: gpp|gtf.py g2t [-h] [-g GTF] [-i INFILE]
 
 options:
   -h, --help            show this help message and exit
@@ -273,8 +273,8 @@ options:
 
 Convert genomic intervals to transcript intervals
 ```
-$ python gpp/gtf.py giv2tiv -h
-usage: gtf.py giv2tiv [-h] [-g GTF] [-i INFILE]
+$ gpp giv2tiv -h
+usage: gpp|gtf.py giv2tiv [-h] [-g GTF] [-i INFILE]
 
 options:
   -h, --help            show this help message and exit
@@ -288,5 +288,6 @@ options:
 - [x] check txinfo results compatilibality with previous R code relying on `GenomicFeatures`;
 - [ ] submit to PyPI;
 - [ ] File format conversion between gtf/bed/SAF;
+- [ ] build transcripts from bed12;
 
 Please use the issues section to report if you have spotted any bug or want a feature to be implemented :)
