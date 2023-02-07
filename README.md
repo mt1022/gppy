@@ -2,16 +2,16 @@
 
 `gppy` is a python package for genomic interval conversions to facilitate related transcriptome or translatome analysis. `gppy` can convert transcript/CDS intervals to genomic intervals in `bed12` format and vice versa, while taking well care of the presence of introns. Besides, `gppy` can extract mRNA/CDS/UTR from gtf and export in `bed12` format and generate summary table of basic transcript information (inlcuding ids and transcript/CDS/UTR lengths). More related features will be included in the future.
 
-### Dependency and Installation
+### Installation
 ```bash
-# option 1: install from testPyPI
-python3 install gppy
+pip install gppy
 
-# option 2: download whl and install
+# alternatively, download wheel and install
 pip install gppy-version-py3-none-any.whl
 ```
 
-Alternative way: scripts in this package rely only on the standard python (tested with version >= 3.7). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
+### Run without installation
+Scripts in this package rely only on the standard python (tested with version >= 3.7). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
 
 ```bash
 wget https://raw.githubusercontent.com/mt1022/gppy/main/gppy/gtf.py
