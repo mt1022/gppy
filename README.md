@@ -4,11 +4,11 @@
 
 ### Dependency and Installation
 ```bash
-# option 1: download whl and install
-pip install gppy-0.1.1-py3-none-any.whl
-
-# option 2: install from testPyPI
+# option 1: install from testPyPI
 python3 install gppy
+
+# option 2: download whl and install
+pip install gppy-version-py3-none-any.whl
 ```
 
 Alternative way: scripts in this package rely only on the standard python (tested with version >= 3.7). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
