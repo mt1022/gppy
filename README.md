@@ -286,10 +286,16 @@ options:
 ```
 
 ### TODO
+
 - [x] improved transcrip info extraction in `txinfo` subcommand (for example, parse all possible tags);
 - [x] check txinfo results compatilibality with previous R code relying on `GenomicFeatures`;
-- [ ] submit to PyPI;
+- [x] submit to PyPI;
 - [ ] File format conversion between gtf/bed/SAF;
 - [ ] build transcripts from bed12;
 
+### Links
+
+- GTF format check and and fix: [AGAT](https://github.com/NBISweden/AGAT)
+
+### Other
 Please use the issues section to report if you have spotted any bug or want a feature to be implemented :)
