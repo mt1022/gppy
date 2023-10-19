@@ -43,6 +43,7 @@ class Gene:
     chrom    : str = ''
     strand   : str = '+'
 
+
 class Transcript:
     def __init__(self, tx_id: str, gene: Gene):
         self.tx_id: str = tx_id
@@ -558,6 +559,31 @@ def tx_info(gtf_file, force_end_tags=False):
     return
 
 
+def txinfo_basic(gtf_file):
+    """
+    print summary information of each transcript
+
+    param: path to GTF file, gzipped format allowed.
+    note: stop codon is counted for CDS length, so that cds + utr5 + utr3 = transcript length
+    """
+    gtf = parse_gtf(gtf_file, parse_attrs=False)
+
+    header = ['tx_name', 'gene_id', 'chrom', 'strand', 'nexon', 'tx_len',
+              'cds_len', 'utr5_len', 'utr3_len']
+    print('\t'.join(header))
+    for tx_id in gtf:
+        tx = gtf[tx_id]
+        nexon = len(tx.exons)
+        tx_len = len(tx)
+        cds_len = sum(len(i) for i in tx.cdss) + sum(len(i) for i in tx.stop_codon)
+        utr5_len = sum(len(i) for i in tx.five_prime_utrs)
+        utr3_len = (tx_len - cds_len - utr5_len) if cds_len > 0 else 0
+        out = ([tx.tx_id, tx.gene.gene_id, tx.gene.chrom, tx.gene.strand] +
+            [str(i) for i in [nexon, tx_len, cds_len, utr5_len, utr3_len]])
+        print('\t'.join(out))
+    return
+
+
 def gtf_from_bed12(bed12_file):
     """
     parse transcript information represented in bed12 format
@@ -639,6 +665,11 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser_txinfo.add_argument('-f', '--force_end_check', action='store_true',
         help='whether to include completeness checking tags')
+    
+    parser_txinfo_basic = subparsers.add_parser('txinfo_basic',
+        help='summary information of each transcript (basic info only)',
+        parents=[parent_parser],
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser_tobed = subparsers.add_parser('convert2bed',
         help='convert GTF to bed12 format', parents=[parent_parser],
@@ -700,6 +731,8 @@ def main():
             utr3_to_bed(args.gtf, args.extend)
     elif args.subcmd == 'txinfo':
         tx_info(args.gtf, args.force_end_check)
+    elif args.subcmd == 'txinfo_basic':
+        txinfo_basic(args.gtf)
     elif args.subcmd == 't2g':
         t2g(gtf_file=args.gtf, tfile=args.infile)
     elif args.subcmd == 'g2t':
@@ -712,7 +745,6 @@ def main():
         extract_thick(bed12_file=args.gtf)
     return
 
-    pass
 
 if __name__ == "__main__":
     main()
