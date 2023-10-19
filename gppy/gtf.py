@@ -572,6 +572,8 @@ def txinfo_basic(gtf_file):
               'cds_len', 'utr5_len', 'utr3_len']
     print('\t'.join(header))
     for tx_id in gtf:
+        if tx_id == '':
+            continue
         tx = gtf[tx_id]
         nexon = len(tx.exons)
         tx_len = len(tx)
