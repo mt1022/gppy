@@ -48,6 +48,7 @@ cut -f1-9,12,15,19-22 test/human.chrY.txinfo.tsv | head
 # ENST00000651670	ENSG00000237048	Y	+	4	1123	0	0	0	TTTY12	lncRNA	False	False	False	True
 # ENST00000413466	ENSG00000237048	Y	+	3	1046	0	0	0	TTTY12	lncRNA	False	True	False	False
 ```
+Note: if your GTF file is not formatted as those in ENSEMBL Genome Browser, `gppy` may fail when trying to extract metadata. In such cases, you can try `gppy txinfo_basic` to get only basic information including name, id, chrom, strand, and length-related features.
 
 Extract CDS regions of each protein-coding transcript and export in bed12 format
 ```bash
