@@ -1,6 +1,11 @@
 # Genomic Positioning with Python
 
-`gppy` is a python package for genomic interval conversions to facilitate related transcriptome or translatome analysis. `gppy` can convert transcript/CDS intervals to genomic intervals in `bed12` format and vice versa, while taking well care of the presence of introns. Besides, `gppy` can extract mRNA/CDS/UTR from gtf and export in `bed12` format and generate summary table of basic transcript information (inlcuding ids and transcript/CDS/UTR lengths). More related features will be included in the future.
+`gppy` is a **light-weight (no third-party dependencies)** and easy-to-install python package for genomic interval conversions to facilitate related transcriptome or translatome analysis.
+
+**Main features** include:
+- convert transcript/CDS coordinates/intervals to genomic coordinates/intervals in `bed12` format and vice versa, while taking well care of the presence of introns. 
+- extract mRNA/CDS/UTR intervals from gtf and export in `bed12` format.
+- extract metadata from gtf files (including gene names, biotypes, and canonical status, transcript/CDS/UTR lengths) and export in tabular format.
 
 ### Installation
 ```bash
@@ -292,17 +297,9 @@ options:
                         tab-delimited file with the first three columns composed of tx_id, start and end coordinates (default: None)
 ```
 
-### TODO
-
-- [x] improved transcrip info extraction in `txinfo` subcommand (for example, parse all possible tags);
-- [x] check txinfo results compatilibality with previous R code relying on `GenomicFeatures`;
-- [x] submit to PyPI;
-- [ ] File format conversion between gtf/bed/SAF;
-- [ ] build transcripts from bed12;
-
 ### Links
 
-- GTF format check and and fix: [AGAT](https://github.com/NBISweden/AGAT)
+- GTF format check and fix: [AGAT](https://github.com/NBISweden/AGAT)
 
 ### Other
 Please use the issues section to report if you have spotted any bug or want a feature to be implemented :)
