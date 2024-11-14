@@ -303,7 +303,7 @@ def parse_gtf(gtf_file, parse_attrs=False):
     if parse_attrs:
         tx_meta = {}
         metavars = dict(attrs=set(), tags=set())
-        regex_attr = re.compile(r'(\w+) "?(\w+)"?;')
+        regex_attr = re.compile(r'(\w+) "?(.*?)"?;')
 
     if gtf_file.endswith('.gz'):
         f = gzip.open(gtf_file, 'rt')
@@ -656,7 +656,7 @@ def main():
     
     
     # main parser with subparsers
-    parser = argparse.ArgumentParser(prog='gpp|gtf.py',
+    parser = argparse.ArgumentParser(prog='(gppy | python gtf.py)',
         description='GTF file manipulation')
     subparsers = parser.add_subparsers(title='GTF operations',
         help='supported operations', dest='subcmd')
