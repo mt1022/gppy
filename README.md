@@ -7,6 +7,10 @@
 - extract mRNA/CDS/UTR intervals from gtf and export in `bed12` format.
 - extract metadata from gtf files (including gene names, biotypes, and canonical status, transcript/CDS/UTR lengths) and export in tabular format.
 
+### News
+
+- 2024.11.14: A custom version (`gtf_flybase.py`) that works for FlyBase GTF files is added. The FlyBase GTF files are not formatted as those in ENSEMBL Genome Browser, so the original `gppy` may fail when trying to extract metadata. In such cases, you can try `python scripts/gtf_flybase.py`.
+
 ### Installation
 ```bash
 pip install gppy
