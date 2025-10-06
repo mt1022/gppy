@@ -1,5 +1,9 @@
 # Genomic Positioning with Python
 
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/gppy)
+![PyPI](https://img.shields.io/pypi/v/gppy)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/gppy)
+
 `gppy` is a **light-weight (no third-party dependencies)** and easy-to-install python package for genomic interval conversions to facilitate related transcriptome or translatome analysis.
 
 **Main features** include:
