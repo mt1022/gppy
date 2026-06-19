@@ -24,7 +24,7 @@ pip install gppy-version-py3-none-any.whl
 ```
 
 ### Run without installation
-Scripts in this package rely only on the standard python (tested with version >= 3.7). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
+Scripts in this package rely only on the standard python (tested with version >= 3.9). No third party dependency is required. All the scripts can be run from the command line without installation after downloading.
 
 ```bash
 wget https://raw.githubusercontent.com/mt1022/gppy/main/gppy/gtf.py
@@ -213,7 +213,7 @@ head test/human.chrY.cds.start.tpos2.tsv
 List utilities
 ```
 $ gppy -h
-usage: gppy|gtf.py [-h] {txinfo,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick} ...
+usage: gppy|gtf.py [-h] {txinfo,txinfo_basic,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick} ...
 
 GTF file manipulation
 
@@ -221,7 +221,7 @@ options:
   -h, --help            show this help message and exit
 
 GTF operations:
-  {txinfo,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick}
+  {txinfo,txinfo_basic,convert2bed,t2g,g2t,tiv2giv,giv2tiv,extract_thick}
                         supported operations
     txinfo              summary information of each transcript
     convert2bed         convert GTF to bed12 format

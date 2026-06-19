@@ -16,8 +16,6 @@ import re
 import gzip
 import csv
 from dataclasses import dataclass
-from collections import defaultdict
-from typing import Any
 
 ###############################################################################
 # class definiton #############################################################
@@ -274,8 +272,8 @@ class Transcript:
         """
         rs = sorted(rs, key=lambda r: r.start)
         if flank > 0:
-            rs[0].start -= flank
-            rs[-1].end += flank
+            rs[0] = Region(rs[0].start - flank, rs[0].end)
+            rs[-1] = Region(rs[-1].start, rs[-1].end + flank)
 
         starts = [r.start - 1 for r in rs]
         ends = [r.end for r in rs]
@@ -589,7 +587,7 @@ def txinfo_basic(gtf_file):
 def gtf_from_bed12(bed12_file):
     """
     parse transcript information represented in bed12 format
-    NB: this function is write when adding `extract_thick`, but has not been tested yet
+    NB: this function was written when adding `extract_thick`, but has not been tested yet
     """
     gtf = {}
     with open(bed12_file, 'rt') as f:
@@ -659,7 +657,7 @@ def main():
     parser = argparse.ArgumentParser(prog='python gtf_flybase.py',
         description='GTF file manipulation')
     subparsers = parser.add_subparsers(title='GTF operations',
-        help='supported operations', dest='subcmd')
+        help='supported operations', dest='subcmd', required=True)
 
     parser_txinfo = subparsers.add_parser('txinfo',
         help='summary information of each transcript',
@@ -687,21 +685,21 @@ def main():
     parser_t2g = subparsers.add_parser('t2g',
         help='convert tpos to gpos', parents=[parent_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser_t2g.add_argument('-i', '--infile', type = str,
-        help='tab-delimited file with the first two columns composed of'
+    parser_t2g.add_argument('-i', '--infile', type=str, required=True,
+        help='tab-delimited file with the first two columns composed of '
         'tx_id and transcript coordinates')
 
     parser_g2t = subparsers.add_parser('g2t',
         help='convert gpos to tpos', parents=[parent_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser_g2t.add_argument('-i', '--infile', type = str,
+    parser_g2t.add_argument('-i', '--infile', type=str, required=True,
         help='tab-delimited file with the first two columns composed of '
         'tx_id and genomic coordinates')
     
     parser_tiv2giv = subparsers.add_parser('tiv2giv',
         help='convert tiv to giv', parents=[parent_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser_tiv2giv.add_argument('-i', '--infile', type = str,
+    parser_tiv2giv.add_argument('-i', '--infile', type=str, required=True,
         help='tab-delimited file with the first three columns composed of '
         'tx_id, start and end coordinates')
     parser_tiv2giv.add_argument('-a', '--append', action='store_true',
@@ -710,15 +708,16 @@ def main():
     parser_giv2tiv = subparsers.add_parser('giv2tiv',
         help='convert giv to tiv', parents=[parent_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser_giv2tiv.add_argument('-i', '--infile', type = str,
+    parser_giv2tiv.add_argument('-i', '--infile', type=str, required=True,
         help='tab-delimited file with the first three columns composed of '
         'tx_id, start and end coordinates')
 
     # bed12 input
     parser_extract_thick = subparsers.add_parser('extract_thick',
         help='Extract nested thick regions from bed12',
-        parents=[parent_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser_extract_thick.add_argument('-b', '--bed12',
+        type=str, default='-', help='input bed12 file')
 
 
     args = parser.parse_args()
@@ -744,7 +743,7 @@ def main():
     elif args.subcmd == 'giv2tiv':
         giv2tiv(gtf_file=args.gtf, givfile=args.infile)
     elif args.subcmd == 'extract_thick':
-        extract_thick(bed12_file=args.gtf)
+        extract_thick(bed12_file=args.bed12)
     return
 
 
